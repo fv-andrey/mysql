@@ -33,33 +33,29 @@ public class LoginPage {
         return new VerificationPage();
     }
 
-    public LoginPage invalidLogin(String login, String password, String msg) {
+    public void invalidLogin(String login, String password, String msg) {
         inputLogin(login, password);
         errorNotification.shouldBe(text(msg), visible);
-        return this;
     }
 
-    public LoginPage withoutLogin(String login, String password, String msg) {
+    public void withoutLogin(String login, String password, String msg) {
         inputLogin(login, password);
         withoutLogin.shouldBe(text(msg), visible);
-        return this;
     }
 
-    public LoginPage withoutPassword(String login, String password, String msg) {
+    public void withoutPassword(String login, String password, String msg) {
         inputLogin(login, password);
         withoutPassword.shouldBe(text(msg), visible);
-        return this;
     }
 
-    public LoginPage blockedSystem(String login, String password) {
-        inputLogin(login, password);
+    public void blockedSystem() {
+        inputLogin(Data.getAuthInfo().getLogin(), Data.getRandomPassword());
         clearFields();
-        inputLogin(login, password);
+        inputLogin(Data.getAuthInfo().getLogin(), Data.getRandomPassword());
         clearFields();
-        inputLogin(login, password);
+        inputLogin(Data.getAuthInfo().getLogin(), Data.getRandomPassword());
         clearFields();
         inputLogin(Data.getAuthInfo().getLogin(), Data.getAuthInfo().getPassword());
         blockedError.shouldBe(visible);
-        return this;
     }
 }

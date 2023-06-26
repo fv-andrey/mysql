@@ -16,8 +16,8 @@ public class Data {
 
     @Value
     public static class AuthInfo {
-        private String login;
-        private String password;
+       String login;
+       String password;
     }
 
     public static AuthInfo getAuthInfo() {
@@ -35,7 +35,7 @@ public class Data {
 
     @Value
     public static class VerificationCode {
-        private String code;
+        String code;
     }
 
     @SneakyThrows
@@ -49,5 +49,14 @@ public class Data {
     public static VerificationCode getRandomCode() {
         return new VerificationCode(faker.numerify("######"));
     }
-}
 
+    @SneakyThrows
+    public static void clearDB() {
+        QueryRunner runner = new QueryRunner();
+        var con = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+        runner.update(con, "delete from auth_codes");
+        runner.update(con, "delete from card_transactions");
+        runner.update(con, "delete from cards");
+        runner.update(con, "delete from users");
+    }
+}

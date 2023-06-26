@@ -1,14 +1,11 @@
 package ru.netology.test;
 
 import lombok.SneakyThrows;
-import org.apache.commons.dbutils.QueryRunner;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.Data;
 import ru.netology.page.LoginPage;
-
-import java.sql.DriverManager;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -22,12 +19,7 @@ public class AuthTest {
     @SneakyThrows
     @AfterAll
     public static void clearDB() {
-        QueryRunner runner = new QueryRunner();
-        var con = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
-        runner.update(con, "delete from auth_codes");
-        runner.update(con, "delete from card_transactions");
-        runner.update(con, "delete from cards");
-        runner.update(con, "delete from users");
+        clearDB();
     }
 
     @Test
@@ -68,7 +60,7 @@ public class AuthTest {
     @Test
     public void inputInvalidPasswordThreeTimesTest() {
         new LoginPage()
-                .blockedSystem(Data.getAuthInfo().getLogin(), Data.getRandomPassword());
+                .blockedSystem();
     }
 
     @Test
